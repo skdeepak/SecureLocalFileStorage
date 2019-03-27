@@ -8,16 +8,27 @@
 import os
 import sys
 from Crypto.Hash import SHA256
+import random
+from Crypto.Cipher import AES
 
 
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
 	#this line prefix Encrypted with the filenames
 	outFile = os.path.join(os.path.dirname(filename),"Encrypted_"+os.path.basename(filename));
-	
+	filesize = str(os.path.getsize(filename)).zfill(16);
+	print filesize;
+	IV = ''
+	#IV = 0
+	for i in range (16):
+		IV += chr(random.randint(0, 0xFF))
+		print IV
+
+	encryptor = AES.new(key, AES.MODE_CBC, IV)
+
 	#print key
 	#print filename;
-	print outFile;
+	#print outFile;
 
 #Function to make a list of files to be encrypted
 def allfiles():
