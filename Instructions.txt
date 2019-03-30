@@ -1,0 +1,8 @@
+The "CODES" directory contains the project souce code.
+
+"PROJECT_DOCS" contans the documentation of the project.
+
+"TEST_DATA" contains the test environment to test our python code.
+
+WARNING: Execute/Test the code in TEST_DATA directory only.
+         else it may harm your important files.
