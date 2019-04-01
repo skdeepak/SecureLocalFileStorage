@@ -31,7 +31,7 @@ def main():
 
 
 def encrypt(key,data):
-	iv = ""
+	iv = "1234"
 	counter = Counter.new(128, initial_value = bytes_to_long(iv))
 	encryptor = AES.new(key, AES.MODE_CTR, counter = counter)
 
@@ -39,7 +39,7 @@ def encrypt(key,data):
 
 
 def decrypt(key, ciphertext):
-	iv = ""
+	iv = "1234"
 	counter = Counter.new(128, initial_value = bytes_to_long(iv))
 	decryptor = AES.new(key, AES.MODE_CTR, counter = counter)
 	return decryptor.decrypt(ciphertext)
