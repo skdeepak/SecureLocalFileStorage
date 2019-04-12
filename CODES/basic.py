@@ -1,30 +1,39 @@
 #!/usr/bin/python  
 """The above line specify the path of Python Interpreter in the linux system"""
-
 '''Author: Deepak and Anushka'''
 '''Semester-2 Project Code'''
 '''Started: March 2019'''
-
 import os
 import sys
 from Crypto.Hash import SHA256
 import random
 from Crypto.Cipher import AES
 
-
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
 	#this line prefix Encrypted with the filenames
 	outFile = os.path.join(os.path.dirname(filename),"Encrypted_"+os.path.basename(filename));
 	filesize = str(os.path.getsize(filename)).zfill(16);
-	print filesize;
+	#print filesize;
 	IV = ''
 	#IV = 0
 	for i in range (16):
 		IV += chr(random.randint(0, 0xFF))
-		print IV
-
+		#print IV
 	encryptor = AES.new(key, AES.MODE_CBC, IV)
+
+	with open(filename, "rb") as inFile:
+		with open(outFile, "wb") as outfile:
+			outfile.write(filesize)
+			outfile.write(IV)
+			while True:
+				chunk = inFile.read(chunksize)
+				if len(chunk) == 0:
+					break
+				elif len(chunk) % 16 != 0:
+					chunk += '0'*(16 - 	(len(chunk) % 16))
+				outfile.write(encryptor.encrypt(chunk))
+
 
 	#print key
 	#print filename;
@@ -38,27 +47,26 @@ def allfiles():
 			Files.append(os.path.join(root, names));
 	return Files;
 
+def main():
+	#The following lines are for formatting purposes
+	desc1 = "*" * 96;
+	desc2 = "NOTE: This program will encrypt all the files in the selected directory and it's subdirectories.";
+	desc3 = "*" * 96;
+	print  "\n";
+	print desc1; 
+	print desc2;
+	print desc3;
+	print "\n";
 
-#The following lines are for formatting purposes
-desc1 = "*" * 96;
-desc2 = "NOTE: This program will encrypt all the files in the selected directory and it's subdirectories.";
-desc3 = "*" * 96;
-print  "\n";
-print desc1; 
-print desc2;
-print desc3;
-print "\n";
+	#Taking user input
+	choice = int(raw_input("Select Your Choice: \n 1. Encrypt \n 2. Decypt \n 3. Exit \n 	:"));
 
 
-#Taking user input
-choice = int(raw_input("Select Your Choice: \n 1. Encrypt \n 2. Decypt \n 3. Exit \n 	:"));
+	#Controlling the execution as per the user input
+	while choice != 3:
 
-
-#Controlling the execution as per the user input
-while choice != 3:
-
-	if (choice == 1 or choice == 2):
-		password = raw_input("Enter the password:  ");
+		if (choice == 1 or choice == 2):
+			password = raw_input("Enter the password:  ");
 
 
 #Excluding the files that are not required and calling the encryption part of the program
@@ -67,7 +75,7 @@ while choice != 3:
 			files = allfiles();
 			
 			for file in files:
-				if  not(file.__contains__(".git")):
+				if  not(file.__contains__(".git")):  
 					newfile.append(file)
 			
 			print "\n List of files to be encrypted:\n"
@@ -78,6 +86,7 @@ while choice != 3:
 	#-------ENCRYPTION BLOCK----------------
 			keyfile = open("key.txt", "w");
 			keyfile.write(password);
+			keyfile.close();
 
 			for tfile in newfile:
 				if os.path.basename(tfile).startswith("Encrypted_"):
@@ -89,12 +98,12 @@ while choice != 3:
 				#Calculate the hash of the password and use it as a key	
 				else:
 					encrypt(SHA256.new(password).digest(), str(tfile))
-					#print "Done encrypting %s" %str(tfile)
-					#os.remove(tfiles)
-			print "\n"
+					print "Done encrypting %s" %str(tfile)
+					os.remove(tfile)
+				print "\n"
 			exit()
 
-#Calling the decryption part of the program	
+	#Calling the decryption part of the program	
 		else:
 			print "\nDecryption Completed Successfully!\n";
 			exit()
@@ -103,3 +112,5 @@ while choice != 3:
 	else:
 		print "Wrong Choice! Try  Again...";
 		exit()
+
+main()

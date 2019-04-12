@@ -3,6 +3,8 @@
 
 from Crypto.Hash import SHA256
 from Crypto.Cipher import AES
+from Crypto.Cipher import AES
+from Cryptodome.Cipher import AES
 import random
 from Crypto.Util import Counter
 from Crypto.Util.number import bytes_to_long
@@ -13,6 +15,7 @@ def main():
 	password = str(raw_input("Enter Password:"));
 	key = SHA256.new(password).digest()
 	print "Encrypting....."
+
 
 	ciphertext = encrypt(key, inp)
 	print "###############################"
