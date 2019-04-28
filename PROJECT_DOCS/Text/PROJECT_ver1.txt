@@ -1,0 +1,37 @@
+************************************
+Project: Securing Local File Storage 
+************************************
+
+We are going to design an application to Secure the Local Storage which will be portable and can be used for multiple platforms like Windows/Linux/Mac.
+
+Abstract: The main idea is to secure our files from unauthorized access when we left our system standalone. 
+		  And even when someone is able to access our files he/she will not 
+		  be able to get any meaningful information from the files because all the data in files is encrypted.
+
+Implementation: We will use python's pycrypto library to encrypt the data in files.
+
+We have designed the code to encrypt the files in the last sem project.
+Now we will be enhancing the code and will be adding more functionality to it i.e Counter Mode of encryption and Multiple Algorithms like AES-128, AES-192, AES-256.
+
+Along with this, we have two mechanisms of operations:
+
+1. The main application will encrypt all the files in the same directory and all the subdirectories in which the application is executed.
+
+Benefit: Encrypt the files as quickly as possible to hide the information from the hackers.
+Whenever the system is standalone the files will be encrypted.
+Key will be saved in the system/USB itself in the hashed form.
+
+The same program and the same key will be used to decrypt all the files.
+
+
+###############################################################################
+Need to cover or should be known to us along with the progress of this project.
+###############################################################################
+What is AES? Its working(with flow diagram)-- ?
+What is AES-128 --?
+What is AES-192 --?
+What is AES-256 --?
+What are the various modes of operations in which the AES can be used??
+Python's basics and libraries that process cryptographic functions, os related functions, system related functions, random number genration.
+What is hashing? (What is SHA Family of hashing?)
+What is PBKDF2? how it works?

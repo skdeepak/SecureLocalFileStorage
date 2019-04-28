@@ -1,13 +1,16 @@
 #!/usr/bin/python  
 """The above line specify the path of Python Interpreter in the linux system"""
-'''Author: Deepak and Anushka'''
-'''Semester-2 Project Code'''
-'''Started: March 2019'''
+
+#FILE ENCRYPTOR#
+#Author: Deepak, Anushka and Sarah
+#Semester-2 Project Code
+#Started: March 2019
 import os
 import sys
 from Crypto.Hash import SHA256
 import random
 from Crypto.Cipher import AES
+
 
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
@@ -21,7 +24,6 @@ def encrypt(key, filename):
 		IV += chr(random.randint(0, 0xFF))
 		#print IV
 	encryptor = AES.new(key, AES.MODE_CBC, IV)
-
 	with open(filename, "rb") as inFile:
 		with open(outFile, "wb") as outfile:
 			outfile.write(filesize)
@@ -62,10 +64,10 @@ def allfiles():
 
 def main():
 	#The following lines are for formatting purposes
+	print "###################################FILE ENCRYPTOR##############################################";
 	desc1 = "*" * 96;
 	desc2 = "NOTE: This program will encrypt all the files in the selected directory and it's subdirectories.";
 	desc3 = "*" * 96;
-	print  "\n";
 	print desc1; 
 	print desc2;
 	print desc3;

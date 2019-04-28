@@ -1,0 +1,12 @@
+#####################
+Crypto.Cipher package
+#####################
+
+Python's Crypto.Cipher package contains algorithms for protecting the confidentiality of data.
+
+There are three types of encryption algorithms:
+Symmetric ciphers: all parties use the same key, for both decrypting and encrypting data. Symmetric ciphers are typically very fast and can process very large amount of data.
+
+Asymmetric ciphers: senders and receivers use different keys. Senders encrypt with public keys (non-secret) whereas receivers decrypt with private keys (secret). Asymmetric ciphers are typically very slow and can process only very small payloads. Example: PKCS#1 OAEP (RSA).
+
+Hybrid ciphers: the two types of ciphers above can be combined in a construction that inherits the benefits of both. An asymmetric cipher is used to protect a short-lived symmetric key, and a symmetric cipher (under that key) encrypts the actual message.
