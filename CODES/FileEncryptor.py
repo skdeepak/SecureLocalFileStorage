@@ -1,5 +1,6 @@
 #!/usr/bin/python  
 """The above line specify the path of Python Interpreter in the linux system"""
+
 #FILE ENCRYPTOR#
 #Author: Deepak, Anushka and Sarah
 #Semester-2 Project Code
@@ -9,6 +10,7 @@ import sys
 from Crypto.Hash import SHA256
 import random
 from Crypto.Cipher import AES
+
 
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
@@ -73,19 +75,23 @@ def main():
 	#Taking user input
 	choice = int(raw_input("Select Your Choice: \n 1. Encrypt \n 2. Decypt \n 3. Exit \n 	:"));
 
+
 	#Controlling the execution as per the user input
-	if (choice == 1 or choice == 2):
-		password = raw_input("Enter the password:  ");
+	while choice != 3:
+
+		if (choice == 1 or choice == 2):
+			password = raw_input("Enter the password:  ");
+
 
 	#-------ENCRYPTION BLOCK----------------
 		if choice == 1:
 			newfile = []
-	#Excluding the files that are not required and calling the encryption part of the program
+		#Excluding the files that are not required and calling the encryption part of the program
 			files = allfiles();
 			for file in files:
 				if  not(file.__contains__(".git")) and not(file.__contains__("FileEncryptor.py")) and not(file.endswith("key.txt")):  
 					newfile.append(file)
-		
+			
 			#BLOCK TO PRINT LIST OF FILES TO BE ENCRYPTED
 			'''
 			print "\n List of files to be encrypted:\n"
@@ -94,8 +100,7 @@ def main():
 			print "\n"
 			'''
 			keyfile = open("key.txt", "w");
-			keyhash = SHA256.new(password).digest()
-			keyfile.write(keyhash);
+			keyfile.write(password);
 			keyfile.close();
 			for tfile in newfile:
 				if os.path.basename(tfile).startswith("Encrypted_"):
@@ -110,13 +115,14 @@ def main():
 					print "Done encrypting %s" %str(tfile)
 					os.remove(tfile)
 			exit()
+
 	#-------DECRYPTION BLOCK----------------
 		else:
 			encFiles = allfiles();
 			kfile = open("key.txt",'r')
 			key = kfile.readline()
 			kfile.close()
-			if SHA256.new(password).digest() == key:
+			if password == key:
 				for Tfiles in encFiles:
 					if not os.path.basename(Tfiles).startswith("Encrypted_"):
 						print "*****[%s]***** is already not encrypted" %str(Tfiles)
@@ -130,10 +136,9 @@ def main():
 			else:
 				print "Wrong Password try again!!"
 				exit()
-	elif (choice == 3):
-		print "Bye Bye...";
-		exit()
+
 	else:
 		print "Wrong Choice! Try  Again...";
 		exit()
+
 main()
