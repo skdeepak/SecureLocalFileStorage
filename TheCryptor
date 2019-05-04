@@ -1,0 +1,17 @@
+                                        TheCryptor a File Encryptor Application
+Encryption: The process of encoding a message or information in such a way that only authorized parties can access it and those who are not authorized cannot.
+Decryption: The reverse process of encryption. It is the process of decoding the data which has been encrypted into a secret format. An authorized user can only decrypt data because decryption requires a secret key or password.
+Feature of using TheCryptor:
+Encrypt your personal files as quickly as possible.
+ 
+Platform: Windows/Linux/Mac
+ 
+Application and Usage:
+When a user leaves the system unattended, it is easy for intruders/attackers to bypass the user privilege (username/password) to access the files.
+Places where the information at rest is critical and the compromise of that sensitive information is not acceptable. For instance Military, Intelligence and  research and security organizations where the digital information like formulas, blueprints, sensitive information and other organization’s secrets available in the files is of the top most criticality and priority to be given in securing them so that it cannot be leaked even within the organization itself.
+TheCryptor the File Encryptor application can be used to protect the sensitive data available on files in all the above places or scenarios quickly by just simply running the application with minimum user intervention.
+Usage:
+In all the above places, the users can use TheCryptor application to secure the private information (related files) by simply running the application providing strong passwords/key. In the current version it will encrypt all the files in the directory and its subdirectories in which the application is being executed.
+The importance of using this application to encrypt your files is that it, once encrypted, no one will be able to understand the information/data in those files even if the files are compromised.
+Another application would be while sharing the sensitive files over untrusted networks or media (A channel in which the communication is not secure) and our files can be hijacked by some middle man i.e. intruders.
+To protect our data from such situations are using TheCryptor application on both the side sender as well as the receiver. One will encrypt and another person will decrypt it with the same key. (Key must be shared via secure channel).
