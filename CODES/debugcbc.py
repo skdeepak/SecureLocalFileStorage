@@ -10,28 +10,32 @@ import sys
 from Crypto.Hash import SHA256
 import random
 from Crypto.Cipher import AES
-from Crypto.Util.number import bytes_to_long
-from Crypto.Util import Counter
+
 
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
 	#this line prefix Encrypted with the filenames
 	outFile = os.path.join(os.path.dirname(filename),"Encrypted_"+os.path.basename(filename));
-	filesize = bytes(str(os.path.getsize(filename)).zfill(16).encode('utf-8'));
-	print (filesize);
+	filesize = str(os.path.getsize(filename)).zfill(16);
+	#print filesize;
 	IV = ''
 	#IV = 0
 	for i in range (16):
 		IV += chr(random.randint(0, 0xFF))
-		#print IV
-	counter = Counter.new(128, initial_value = bytes_to_long(bytes(IV.encode('utf-8'))))
-	encryptor = AES.new(key, AES.MODE_CTR, counter = counter)
-	#encryptor = AES.new(key, AES.MODE_CBC, IV)
-
+	#print(IV)
+	IVE = IV.encode('utf-8')
+	#print (IVE)
+	IVD = IVE.decode('utf-8')
+	#print (IVD)
+	print(bytes(IVE))
+	IVX = bytes(IVE)
+	print(IVX)
+	'''
+	encryptor = AES.new(key, AES.MODE_CBC, IVX)
 	with open(filename, "rb") as inFile:
 		with open(outFile, "wb") as outfile:
 			outfile.write(filesize)
-			outfile.write(bytes(IV.encode('utf-8')))
+			outfile.write(IV)
 			while True:
 				chunk = inFile.read(chunksize)
 				if len(chunk) == 0:
@@ -39,6 +43,7 @@ def encrypt(key, filename):
 				elif len(chunk) % 16 != 0:
 					chunk += '0'*(16 - 	(len(chunk) % 16))
 				outfile.write(encryptor.encrypt(chunk))
+	'''
 
 
 def decrypt(key, filename):
@@ -49,10 +54,7 @@ def decrypt(key, filename):
 	with open(filename, "rb") as inFile:
 		filesize = inFile.read(16)
 		IV = inFile.read(16)
-		counter = Counter.new(128, initial_value = bytes_to_long(IV))
-		decryptor = AES.new(key, AES.MODE_CTR, counter = counter)
-		#decryptor = AES.new(key, AES.MODE_CBC, IV)
-		
+		decryptor = AES.new(key, AES.MODE_CBC, IV)
 		with open(newfile3, "wb") as outputfile:
 			while True:
 				chunk = inFile.read(chunksize)
@@ -66,7 +68,7 @@ def allfiles():
 	Files = [];
 	for root, subfiles, files in os.walk(os.getcwd()):
 		for names in files:
-			Files.append(os.path.join(root, names))
+			Files.append(os.path.join(root, names));
 	return Files;
 
 def main():
@@ -96,7 +98,7 @@ def main():
 		#Excluding the files that are not required and calling the encryption part of the program
 			files = allfiles();
 			for file in files:
-				if  not(file.__contains__(".git")) and not(file.__contains__("FileEncryptor_AES_CTR.py")) and not(file.endswith("key.txt")):  
+				if  not(file.__contains__(".git")) and not(file.__contains__("debugcbc.py")) and not(file.endswith("key.txt")):  
 					newfile.append(file)
 			
 			#BLOCK TO PRINT LIST OF FILES TO BE ENCRYPTED
@@ -118,10 +120,9 @@ def main():
 					pass
 				#Calculate the hash of the password and use it as a key	
 				else:
-					print(bytes(password.encode('utf-8')))
-					encrypt(SHA256.new(bytes(password.encode('utf-8'))).digest(), str(tfile))
+					encrypt(SHA256.new(password.encode('utf-8')).hexdigest(), str(tfile))
 					print ("Done encrypting %s" %str(tfile))
-					os.remove(tfile)
+					#os.remove(tfile)
 			exit()
 
 	#-------DECRYPTION BLOCK----------------
@@ -136,9 +137,9 @@ def main():
 						print ("*****[%s]***** is already not encrypted" %str(Tfiles))
 						pass
 					else:
-						decrypt(SHA256.new(password).digest(), str(Tfiles))
+						decrypt(SHA256.new(password.encode('utf-8')).hexdigest(), str(Tfiles))
 						print ("Done decrypting %s" %str(Tfiles))
-						os.remove(Tfiles)
+						#os.remove(Tfiles)
 				os.remove("key.txt")		
 				exit()
 			else:
@@ -146,7 +147,7 @@ def main():
 				exit()
 
 	else:
-		print ("Wrong Choice! Try  Again...")
+		print ("Wrong Choice! Try  Again...");
 		exit()
 
 main()
