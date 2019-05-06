@@ -1,5 +1,6 @@
 #!/usr/bin/python3  
 """The above line specify the path of Python Interpreter in the linux system"""
+
 #FILE ENCRYPTOR#
 #Author: Deepak, Anushka and Sarah
 #Semester-2 Project Code

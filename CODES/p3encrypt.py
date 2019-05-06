@@ -1,9 +1,4 @@
 #!/usr/bin/python3  
-"""The above line specify the path of Python Interpreter in the linux system"""
-#FILE ENCRYPTOR#
-#Author: Deepak, Anushka and Sarah
-#Semester-2 Project Code
-#Started: March 2019
 import os
 import sys
 from Crypto.Hash import SHA256
@@ -12,55 +7,15 @@ from Crypto.Cipher import AES
 from Crypto.Util.number import bytes_to_long
 from Crypto.Util import Counter
 
+
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
 	#this line prefix Encrypted with the filenames
 	outFile = os.path.join(os.path.dirname(filename),"Encrypted_"+os.path.basename(filename));
 	filesize = bytes(str(os.path.getsize(filename)).zfill(16).encode('utf-8'));
 	print (filesize);
-	IV = ''
-	#IV = 0
-	for i in range (16):
-		IV += chr(random.randint(0, 0xFF))
-		#print IV
-	counter = Counter.new(128, initial_value = bytes_to_long(bytes(IV.encode('utf-8'))))
-	encryptor = AES.new(key, AES.MODE_CTR, counter = counter)
-	#encryptor = AES.new(key, AES.MODE_CBC, IV)
-
-	with open(filename, "rb") as inFile:
-		with open(outFile, "wb") as outfile:
-			outfile.write(filesize)
-			outfile.write(bytes(IV.encode('utf-8')))
-			while True:
-				chunk = inFile.read(chunksize)
-				if len(chunk) == 0:
-					break
-				elif len(chunk) % 16 != 0:
-					chunk += '0'*(16 - 	(len(chunk) % 16))
-				outfile.write(encryptor.encrypt(chunk))
 
 
-def decrypt(key, filename):
-	chunksize =64 * 1024
-	newfile = str(os.path.basename(filename))
-	newfile3 = str(os.path.join(os.path.dirname(filename),os.path.basename(newfile[10:])))	
-
-	with open(filename, "rb") as inFile:
-		filesize = inFile.read(16)
-		IV = inFile.read(16)
-		counter = Counter.new(128, initial_value = bytes_to_long(IV))
-		decryptor = AES.new(key, AES.MODE_CTR, counter = counter)
-		#decryptor = AES.new(key, AES.MODE_CBC, IV)
-		
-		with open(newfile3, "wb") as outputfile:
-			while True:
-				chunk = inFile.read(chunksize)
-				if len(chunk) == 0:
-					break
-				outputfile.write(decryptor.decrypt(chunk))
-			outputfile.truncate(int(filesize))
-
-#Function to make a list of files to be encrypted
 def allfiles():
 	Files = [];
 	for root, subfiles, files in os.walk(os.getcwd()):
@@ -81,7 +36,6 @@ def main():
 	#Taking user input
 	choice = int(input("Select Your Choice: \n 1. Encrypt \n 2. Decypt \n 3. Exit \n 	:"));
 
-
 	#Controlling the execution as per the user input
 	while choice != 3:
 
@@ -99,12 +53,12 @@ def main():
 					newfile.append(file)
 			
 			#BLOCK TO PRINT LIST OF FILES TO BE ENCRYPTED
-			'''
-			print "\n List of files to be encrypted:\n"
-			for f in newfile:
-				print f;
-			print "\n"
-			'''
+		
+			#print ("\n List of files to be encrypted:\n")
+			#for f in newfile:
+			#	print (f);
+			#print ("\n")
+			
 			keyfile = open("key.txt", "w");
 			keyfile.write(password);
 			keyfile.close();
@@ -123,6 +77,7 @@ def main():
 					os.remove(tfile)
 			exit()
 
+'''	
 	#-------DECRYPTION BLOCK----------------
 		else:
 			encFiles = allfiles();
@@ -147,5 +102,5 @@ def main():
 	else:
 		print ("Wrong Choice! Try  Again...")
 		exit()
-
+'''
 main()
