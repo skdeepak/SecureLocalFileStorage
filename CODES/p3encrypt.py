@@ -14,8 +14,14 @@ def encrypt(key, filename):
 	outFile = os.path.join(os.path.dirname(filename),"Encrypted_"+os.path.basename(filename));
 	filesize = bytes(str(os.path.getsize(filename)).zfill(16).encode('utf-8'));
 	print (filesize);
-
-
+	'''
+	IV = ''
+	for i in range (16):
+		IV += chr(random.randint(0, 0xFF))
+		#print (IV)
+	print ((IV.encode('utf-8')))
+	'''
+	
 def allfiles():
 	Files = [];
 	for root, subfiles, files in os.walk(os.getcwd()):
@@ -49,7 +55,7 @@ def main():
 		#Excluding the files that are not required and calling the encryption part of the program
 			files = allfiles();
 			for file in files:
-				if  not(file.__contains__(".git")) and not(file.__contains__("FileEncryptor_AES_CTR.py")) and not(file.endswith("key.txt")):  
+				if  not(file.__contains__(".git")) and not(file.__contains__("p3encrypt.py")) and not(file.endswith("key.txt")):  
 					newfile.append(file)
 			
 			#BLOCK TO PRINT LIST OF FILES TO BE ENCRYPTED
@@ -74,7 +80,7 @@ def main():
 					print(bytes(password.encode('utf-8')))
 					encrypt(SHA256.new(bytes(password.encode('utf-8'))).digest(), str(tfile))
 					print ("Done encrypting %s" %str(tfile))
-					os.remove(tfile)
+					#os.remove(tfile)
 			exit()
 
 '''	
