@@ -16,12 +16,13 @@ def encrypt(key, filename):
 	print (filesize);
 	IV = ''
 	for i in range (16):
-		IV += str(random.randint(0, 0xFF))
+		IV += str(random.randint(0, 9))
 #	print ((IV.encode('utf-8')))
 	print (IV)
+
 	counter = Counter.new(128, initial_value = bytes_to_long(bytes(IV.encode('utf-8'))))
 	encryptor = AES.new(key, AES.MODE_CTR, counter = counter)
-	print (encryptor)
+	#print (encryptor)
 	with open(filename, "rb") as inFile:
 		with open(outFile, "wb") as outfile:
 			outfile.write(filesize)
@@ -31,8 +32,31 @@ def encrypt(key, filename):
 				if len(chunk) == 0:
 					break
 				elif len(chunk) % 16 != 0:
-					chunk += '0'*(16 - 	(len(chunk) % 16))
+					chunk += bytes('0'.encode('utf-8'))*(16 - 	(len(chunk) % 16))
 				outfile.write(encryptor.encrypt(chunk))
+	
+
+def decrypt(key, filename):
+	chunksize =64 * 1024
+	newfile = str(os.path.basename(filename))
+	newfile3 = str(os.path.join(os.path.dirname(filename),os.path.basename(newfile[10:])))
+	with open(filename, "rb") as inFile:
+		filesize = inFile.read(16)
+		IV = inFile.read(16)
+		print (filesize)
+		print(IV)
+		counter = Counter.new(128, initial_value = bytes_to_long(IV))
+		decryptor = AES.new(key, AES.MODE_CTR, counter = counter)
+		#decryptor = AES.new(key, AES.MODE_CBC, IV)
+		
+		with open(newfile3, "wb") as outputfile:
+			while True:
+				chunk = inFile.read(chunksize)
+				if len(chunk) == 0:
+					break
+				outputfile.write(decryptor.decrypt(chunk))
+			outputfile.truncate(int(filesize))
+	
 
 	
 def allfiles():
@@ -72,10 +96,9 @@ def main():
 					newfile.append(file)
 			
 			#BLOCK TO PRINT LIST OF FILES TO BE ENCRYPTED
-		
 			#print ("\n List of files to be encrypted:\n")
 			#for f in newfile:
-			#	print (f);
+			#print (f);
 			#print ("\n")
 			
 			keyfile = open("key.txt", "w");
@@ -93,10 +116,9 @@ def main():
 					print(bytes(password.encode('utf-8')))
 					encrypt(SHA256.new(bytes(password.encode('utf-8'))).digest(), str(tfile))
 					print ("Done encrypting %s" %str(tfile))
-					#os.remove(tfile)
+					os.remove(tfile)
 			exit()
-
-'''	
+	
 	#-------DECRYPTION BLOCK----------------
 		else:
 			encFiles = allfiles();
@@ -109,7 +131,7 @@ def main():
 						print ("*****[%s]***** is already not encrypted" %str(Tfiles))
 						pass
 					else:
-						decrypt(SHA256.new(password).digest(), str(Tfiles))
+						decrypt(SHA256.new(bytes(password.encode('utf-8'))).digest(), str(Tfiles))
 						print ("Done decrypting %s" %str(Tfiles))
 						os.remove(Tfiles)
 				os.remove("key.txt")		
@@ -121,5 +143,4 @@ def main():
 	else:
 		print ("Wrong Choice! Try  Again...")
 		exit()
-'''
 main()
