@@ -83,12 +83,10 @@ def allfiles():
 
 def main():
 	#The following lines are for formatting purposes
-	text="Awesome Character Ascii Art"
-	cprint(figlet_format(text, font="standard"), "blue")
-
-	
-	ascii_banner = pyfiglet.figlet_format("THE CRYPTOR", font = "slant", colour = "blue")
-	print(ascii_banner)
+	text="THE CRYPTOR"
+	cprint(figlet_format(text, font="standard", width=80), "green")
+	#ascii_banner = pyfiglet.figlet_format("THE CRYPTOR", font = "slant")
+	#print(ascii_banner)
 	desc1 = "*" * 96;
 	desc2 = "NOTE: This program will encrypt all the files in the selected directory and it's subdirectories.";
 	desc3 = "*" * 96;
