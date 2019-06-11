@@ -1,8 +1,0 @@
-FinancialInformation
-Health Infromation
-Accounts
-Usernames
-Passwords
-Texts
-CredentialsInformation
-And Other Sensitive or Private Information

@@ -13,15 +13,14 @@ import random
 from Crypto.Cipher import AES
 from Crypto.Util.number import bytes_to_long
 from Crypto.Util import Counter
-import os
 from stat import S_IREAD, S_IRGRP, S_IROTH
 from stat import S_IWUSR
 import getpass 
-import pyfiglet
+from pyfiglet import figlet_format
 from colorama import init
 init(strip=not sys.stdout.isatty())
 from termcolor import cprint
-from pyfiglet import figlet_format
+
 
 def encrypt(key, filename):
 	chunksize = 64 * 1024;
@@ -34,7 +33,6 @@ def encrypt(key, filename):
 		IV += str(random.randint(0, 9))
 #	print ((IV.encode('utf-8')))
 	#print (IV)
-
 	counter = Counter.new(128, initial_value = bytes_to_long(bytes(IV.encode('utf-8'))))
 	encryptor = AES.new(key, AES.MODE_CTR, counter = counter)
 	#print (encryptor)
@@ -85,8 +83,7 @@ def main():
 	#The following lines are for formatting purposes
 	text="THE CRYPTOR"
 	cprint(figlet_format(text, font="standard", width=80), "green")
-	#ascii_banner = pyfiglet.figlet_format("THE CRYPTOR", font = "slant")
-	#print(ascii_banner)
+
 	desc1 = "*" * 96;
 	desc2 = "NOTE: This program will encrypt all the files in the selected directory and it's subdirectories.";
 	desc3 = "*" * 96;
@@ -98,11 +95,10 @@ def main():
 	choice = str(input("Select Your Choice: \n 1. Encrypt \n 2. Decypt \n 3. Exit \n 	:"));
 
 	#Controlling the execution as per the user input
-	#while choice != "3":
 
 	if (choice == "1" or choice == "2"):
 		#password = str(input("Enter the password:  "));
-		password = getpass.getpass('Password:')
+		password = getpass.getpass('Password:') #To make the password hidden while user enters it on the console
 
 	#-------ENCRYPTION BLOCK----------------
 		if choice == "1":
@@ -118,6 +114,7 @@ def main():
 			#for f in newfile:
 			#print (f);
 			#print ("\n")
+			
 			keyfile = open("key", "w");
 			keyfile.write(password);
 			os.chmod("key", S_IREAD|S_IRGRP|S_IROTH)
@@ -148,6 +145,9 @@ def main():
 					if not os.path.basename(Tfiles).startswith("Encrypted_"):
 						if os.path.basename(Tfiles).startswith(".key"):
 							pass	
+						
+						elif  not(Tfiles.__contains__(".git")) or not(Tfiles.__contains__("TheCryptor")) or not(Tfiles.endswith(".key")):  	
+							pass
 						else:
 							print ("[%s] is already not encrypted" %str(Tfiles))
 						pass
@@ -163,8 +163,9 @@ def main():
 				exit()
 
 	elif(choice == "3"):
+		print ("\nBye bye see you!")
 		exit();
 	else:
-		print ("Wrong Choice! Try  Again...")
+		print ("\nWrong Choice! Try  Again...")
 		exit()
 main()

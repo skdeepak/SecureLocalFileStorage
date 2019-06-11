@@ -1,5 +1,6 @@
 #!/usr/bin/python3  
 """The above line specify the path of Python Interpreter in the linux system"""
+
 #FILE ENCRYPTOR#
 #Author: Deepak, Anushka and Sarah
 #Semester-2 Project Code
@@ -95,7 +96,7 @@ def main():
 		#Excluding the files that are not required and calling the encryption part of the program
 			files = allfiles();
 			for file in files:
-				if  not(file.__contains__(".git")) and not(file.__contains__("debug.py")) and not(file.endswith("key.txt")):  
+				if  not(file.__contains__(".git")) and not(file.__contains__("FileEncryptor_AES_CTR.py")) and not(file.endswith("key.txt")):  
 					newfile.append(file)
 			
 			#BLOCK TO PRINT LIST OF FILES TO BE ENCRYPTED
@@ -120,7 +121,7 @@ def main():
 					print(bytes(password.encode('utf-8')))
 					encrypt(SHA256.new(bytes(password.encode('utf-8'))).digest(), str(tfile))
 					print ("Done encrypting %s" %str(tfile))
-					#os.remove(tfile)
+					os.remove(tfile)
 			exit()
 
 	#-------DECRYPTION BLOCK----------------
@@ -137,8 +138,8 @@ def main():
 					else:
 						decrypt(SHA256.new(password).digest(), str(Tfiles))
 						print ("Done decrypting %s" %str(Tfiles))
-						#os.remove(Tfiles)
-				#os.remove("key.txt")		
+						os.remove(Tfiles)
+				os.remove("key.txt")		
 				exit()
 			else:
 				print ("Wrong Password try again!!")

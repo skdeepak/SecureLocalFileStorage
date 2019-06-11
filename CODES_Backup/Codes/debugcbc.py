@@ -10,7 +10,6 @@ import sys
 from Crypto.Hash import SHA256
 import random
 from Crypto.Cipher import AES
-from Crypto import Random
 
 
 def encrypt(key, filename):
@@ -19,21 +18,14 @@ def encrypt(key, filename):
 	outFile = os.path.join(os.path.dirname(filename),"Encrypted_"+os.path.basename(filename));
 	filesize = str(os.path.getsize(filename)).zfill(16);
 	#print filesize;
-	IV = Random.new().read(AES.block_size)
-	
-	'''
 	IV = ''
 	#IV = 0
 	for i in range (16):
 		IV += chr(random.randint(0, 0xFF))
-	#print(IV)
-	IVE = IV.encode('utf-8')
-	#print (IVE)
-	IVD = IVE.decode('utf-8')
-	#print (IVD)
-	#print(bytes(IVE))
-	IVX = bytes(IVE)
-	print(IVX)
+	print(IV)
+	IVD = IV.encode('utf-8')
+	print (IVD)
+	print (IVD.decode('utf-8'))
 	'''
 	encryptor = AES.new(key, AES.MODE_CBC, IV)
 	with open(filename, "rb") as inFile:
@@ -47,7 +39,7 @@ def encrypt(key, filename):
 				elif len(chunk) % 16 != 0:
 					chunk += '0'*(16 - 	(len(chunk) % 16))
 				outfile.write(encryptor.encrypt(chunk))
-	
+	'''
 
 
 def decrypt(key, filename):
@@ -58,7 +50,6 @@ def decrypt(key, filename):
 	with open(filename, "rb") as inFile:
 		filesize = inFile.read(16)
 		IV = inFile.read(16)
-		'''
 		decryptor = AES.new(key, AES.MODE_CBC, IV)
 		with open(newfile3, "wb") as outputfile:
 			while True:
@@ -67,7 +58,7 @@ def decrypt(key, filename):
 					break
 				outputfile.write(decryptor.decrypt(chunk))
 			outputfile.truncate(int(filesize))
-		'''
+
 #Function to make a list of files to be encrypted
 def allfiles():
 	Files = [];
@@ -142,7 +133,7 @@ def main():
 						print ("*****[%s]***** is already not encrypted" %str(Tfiles))
 						pass
 					else:
-						decrypt(SHA256.new(password.encode('utf-8')).digest(), str(Tfiles))
+						decrypt(SHA256.new(password.encode('utf-8')).hexdigest(), str(Tfiles))
 						print ("Done decrypting %s" %str(Tfiles))
 						#os.remove(Tfiles)
 				os.remove("key.txt")		
