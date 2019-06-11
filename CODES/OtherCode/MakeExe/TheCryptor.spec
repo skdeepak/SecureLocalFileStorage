@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['TheCryptor.py'],
-             pathex=['D:\\PGDCSL\\SEM-2\\PROJECT\\CODES\\TestData\\MakeExe'],
-             binaries=[],
-             datas=[('pyfiglet', './pyfiglet')],
+             pathex=['/root/MyWorkspace/PROJECT/CODES/OtherCode/MakeExe'],
+             binaries=[('/root/MyWorkspace/PROJECT/CODES/OtherCode/MakeExe/pyfiglet/', 'pyfiglet')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
